@@ -1,8 +1,15 @@
-import React, {Component} from 'react'
+import React from 'react'
+import {Provider, Heading, Input, Button} from 'rebass'
 
-class App extends Component {
+class App extends React.Component {
   render() {
-    return <div className="App">Black Circle</div>
+    return (
+      <Provider>
+        <Heading>Black Circle</Heading>
+        <Input placeholder='Search' />
+        <Button>Click!</Button>
+      </Provider>
+    )
   }
 }
 
