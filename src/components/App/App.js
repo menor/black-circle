@@ -1,51 +1,34 @@
 import React from 'react'
-import {Provider, Heading, Input} from 'rebass'
-import debounce from 'lodash.debounce'
-
-const DISCOGS_BASE_URL =
-  'https://api.discogs.com/database/search?searchType=all&q='
-
-const options = {
-  mode: 'cors',
-  headers: new Headers({
-    Authorization: `Discogs token=${DISCOGS_TOKEN}`,
-  }),
-}
-
-async function fetchRecords(str) {
-  console.log('Fetching')
-  const res = await fetch(DISCOGS_BASE_URL + str, options)
-  return res
-}
+import {Provider, Drawer, Heading, Button} from 'rebass'
+import AddRecord from '../AddRecord'
 
 class App extends React.Component {
   state = {
-    records: [],
+    addRecord: false,
   }
 
-  debouncedInputChange = debounce(this.emitInputChange, 300)
-
-  emitInputChange (value) {
-    fetchRecords(value).then(res => {
-      res.json().then(data => this.setState({records: data.results}))
-    })
+  handleAddClick = () => {
+    this.setState({addRecord: true})
   }
 
-  handleInputChange = (e) => {
-    this.debouncedInputChange(e.target.value)
+  handleDrawerButtonClick = () => {
+    this.setState({addRecord: false})
   }
 
   render() {
     return (
       <Provider>
         <Heading>Black Circle</Heading>
-        <Input onChange={this.handleInputChange} placeholder="Search" />
-        {this.state.records.map(record => (
-          <React.Fragment>
-            <p key={record.title}>{record.title}</p>
-            <img src={record.cover_image} />
-          </React.Fragment>
-        ))}
+        <Button onClick={this.handleAddClick}>Add</Button>
+        <Drawer
+          position="right"
+          bg="white"
+          color="black"
+          pl={12}
+          open={this.state.addRecord}>
+          <AddRecord />
+          <Button onClick={this.handleDrawerButtonClick}>Close</Button>
+        </Drawer>
       </Provider>
     )
   }
