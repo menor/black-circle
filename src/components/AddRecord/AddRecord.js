@@ -3,9 +3,10 @@ import {Provider, Heading} from 'rebass'
 import take from 'lodash/take'
 import {DISCOGS_TOKEN} from '../../secret'
 import TextInput from '../TextInput'
+import AddRecordSearchResults from '../AddRecordSearchResults'
 
 const DISCOGS_BASE_URL =
-  'https://api.discogs.com/database/search?searchType=all&q='
+  'https://api.discogs.com/database/search?searchType=release&q='
 
 const options = {
   mode: 'cors',
@@ -41,12 +42,7 @@ class AddRecord extends React.Component {
       <Provider>
         <Heading>Add a record</Heading>
         <TextInput debounceTime={350} onChange={this.fetchSearch} placeholder="Search" />
-        {this.state.records.map(record => (
-          <React.Fragment>
-            <p key={record.title}>{record.title}</p>
-            <img src={record.cover_image} />
-          </React.Fragment>
-        ))}
+        <AddRecordSearchResults records={this.state.records} />
       </Provider>
     )
   }
