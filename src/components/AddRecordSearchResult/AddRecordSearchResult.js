@@ -1,19 +1,31 @@
 import React from 'react'
-import {Row, Image, Label, Column} from 'rebass'
+import styled from 'styled-components'
+import {Flex, Box, Text, Image, Label} from 'rebass'
 
-function AddRecordSearchResult ({title, thumb, year}) {
+function AddRecordSearchResult({onAdd, title, thumb, year}) {
   return (
-    <Row>
-      <Column w={1/3}>
-      <Image alt={title} src={thumb} />
-      </Column>
-      <Column>
-      <p key={title}>{title}</p>
+    <RecordBox p={2} onClick={() => {onAdd({title: title, thumb: thumb, year: year})}}>
+      <Box width={1 / 3}>
+        <Image alt={title} src={thumb} />
+      </Box>
 
-      <Label>{year}</Label>
-      </Column>
-    </Row>
+      <Box alignSelf="center" width={2 / 3} pl={2}>
+        <Text key={title}>{title}</Text>
+        <Label mt={1}>{year}</Label>
+      </Box>
+
+    </RecordBox>
   )
 }
+
+
+const RecordBox = styled(Flex)`
+  cursor: pointer;
+  opacity: 0.8;
+  &:hover {
+  background: 'gray';
+   opacity: 1;
+  }
+`
 
 export default AddRecordSearchResult
