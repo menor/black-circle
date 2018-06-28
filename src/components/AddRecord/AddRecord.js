@@ -1,9 +1,14 @@
 import React from 'react'
 import {Heading} from 'rebass'
 import take from 'lodash/take'
-import {searchRecords} from '../../helpers/discogs.helpers'
+import {searchRecords} from '../../helpers/spotify.helpers'
 import TextInput from '../TextInput'
 import AddRecordSearchResults from '../AddRecordSearchResults'
+
+function convertResultsFromSpotify (data) {
+  const {items} = data.albums
+  return items.map(item => ({title: item.name, thumb: item.images[1].url, year: item.release_date}))
+}
 
 class AddRecord extends React.Component {
   state = {
@@ -17,7 +22,7 @@ class AddRecord extends React.Component {
   fetchSearch = value => {
     searchRecords(value).then(res => {
       res.json().then(data => {
-        this.setRecords(data.results)
+        this.setRecords(convertResultsFromSpotify(data))
       })
     })
   }
