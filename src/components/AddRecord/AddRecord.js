@@ -5,9 +5,16 @@ import {searchRecords} from '../../helpers/spotify.helpers'
 import TextInput from '../TextInput'
 import AddRecordSearchResults from '../AddRecordSearchResults'
 
-function convertResultsFromSpotify (data) {
+function convertResultsFromSpotify(data) {
   const {items} = data.albums
-  return items.map(item => ({title: item.name, thumb: item.images[1].url, year: item.release_date}))
+  console.log(items)
+  return items.map(item => ({
+    artists: item.artists.map(artist => artist.name),
+    title: item.name,
+    thumb: item.images[1].url,
+    year: item.release_date.split('-')[0],
+    id: item.id
+  }))
 }
 
 class AddRecord extends React.Component {
@@ -30,7 +37,7 @@ class AddRecord extends React.Component {
   render() {
     return (
       <React.Fragment>
-        <Heading mt={3} fontSize={3}>
+        <Heading mt={3} mb={2} fontSize={3}>
           Add a record
         </Heading>
         <TextInput
