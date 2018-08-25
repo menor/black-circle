@@ -3,19 +3,32 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "lodash": "^4.17.10",
+    "morgan": "^1.9.0",
+    "nconf": "^0.10.0",
+    "passport": "^0.4.0",
+    "passport-spotify": "^1.0.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-emotion": "^9.2.3",
     "react-scripts": "1.1.4",
     "rebass": "^2.0.0-6",
+    "session-file-store": "^1.2.0",
     "styled-components": "^3.3.2"
   },
   "scripts": {
-    "start": "set BROWSER=none&&react-scripts start",
+    "start": "concurrently npm:start:server npm:start:client",
+    "start:client": "react-scripts start",
+    "start:server": "NODE_ENV=development nodemon server/index.js",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "devDependencies": {}
+  "proxy": "http://localhost:3005",
+  "devDependencies": {
+    "concurrently": "^3.6.1",
+    "nodemon": "^1.18.3"
+  }
 }
